@@ -1,0 +1,310 @@
+<HTML>
+<HEAD>
+   <TITLE>Now whom do we write to congress about?</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" link="#006666" vlink="#000000">
+
+<H1>FAQ.</H1>
+<BR>		<A HREF="#_1_1">So what is Mod Layout?</A></BR>
+<BR>		<A HREF="#_1_2">Where do I get it from?</A></BR>
+<BR>		<A HREF="#_1_3">What sort of license does it have?</A></BR>
+<BR>		<A HREF="#_1_4">How can I make suggestions for it?</A></BR>
+<BR>		<A HREF="#_1_5">How can I report a bug?</A></BR>
+<BR>		<A HREF="#_1_6">Is there a mailing list?</A></BR>
+<BR>		<A HREF="#_1_7">Is there anyplace I can see it at work?</A></BR>
+<BR>		<A HREF="#_1_8">How do I install it?</A></BR>
+<BR>		<A HREF="#_1_9">What are the directives?</A></BR>
+<BR>		<A HREF="#_1_10">I have my own type that I have defined with AddHanlder, how can I wrap that?</A></BR>
+<BR>		<A HREF="#_1_11">What happened to the CGIEnable directive?</A></BR>
+<BR>		<A HREF="#_1_12">Hey, I don't want to wrap CGI's, just HTML, how do I do that?</A></BR>
+<BR>		<A HREF="#_1_13">So what is the difference between LayoutFooter, LayoutFooterFile, and LayoutLayoutTXT (or LayoutHeader, LayoutHeaderFile, and LayoutHeaderTXT) (depreciated)?</A></BR>
+<BR>		<A HREF="#_1_14">What handlers does LayoutDefaultHandlers do?</A></BR>
+<BR>		<A HREF="#_1_15">What environmental variables does ModLayout add?</A></BR>
+<BR>		<A HREF="#_1_16">How do I pick different headers and footers for different pages dynamically?</A></BR>
+<BR>		<A HREF="#_1_17">Hey, what about frames?</A></BR>
+<BR>		<A HREF="#_1_18">Hey, what about using this with the proxy server?</A></BR>
+<BR>		<A HREF="#_1_19">Can I have just the footer and header print?</A></BR>
+<BR>		<A HREF="#_1_20">Is it possible to specify text/* in for a LayoutHandler?</A></BR>
+<BR>		<A HREF="#_1_21">What about directories?</A></BR>
+<BR>		<A HREF="#_1_22">Can I have it ignore certain files?</A></BR>
+<BR>		<A HREF="#_1_23">But can I have only certain files not display headers (or footer)?</A></BR>
+<BR>		<A HREF="#_1_24">How do I modify outbound HTTP headers?</A></BR>
+<BR>		<A HREF="#_1_25">How do I make this work with PHP?</A></BR>
+<BR>		<A HREF="#_1_26">So what is up with custom error documents?</A></BR>
+<BR>		<A HREF="#_1_27">I am getting 405's with SSI documents?</A></BR>
+<BR>		<A HREF="#_1_28">What is the future?</A></BR>
+
+<BR><H3><A NAME="_1_1"></A>So what is Mod Layout?</H3>
+
+<P>Mod layout wraps a page, by saying this I mean that it
+can place information at both the beginning and the end of a
+document. This allows you do create a single look and feel
+throughout a website without using server side includes to
+"automagically" add content in either of these two locations. You
+can use it to add standard disclaimers to all of the pages on a
+server or to place banner adds on the top of all pages (I know,
+banner adds, ick...). I've even seen people use the header and
+footer to place the entire contents of a given server inside of
+tables. There are many possibilities.</P>
+
+<BR><H3><A NAME="_1_2"></A>Where do I get it from?</H3>
+
+<P>You can get it from either <A HREF="http://www.tangent.org/mod_layout/download.html">here</A> via the web or <A HREF="ftp://www.tangent.org/pub/apache/">here</A> via ftp.
+
+<BR><H3><A NAME="_1_3"></A>What sort of license does it have?</H3>
+
+<P>You are pretty much free to use it as you please. Check
+out the License file with the distribution for more details. In
+all likelihood I will switch to either GNU or Apache style
+licensing at some point in the future.</P>
+
+<BR><H3><A NAME="_1_4"></A>How can I make suggestions for it?</H3>
+
+<P>Send email to <A HREF="mailto:brian@tangent.org.">brian@tangent.org.</A></P>
+
+<BR><H3><A NAME="_1_5"></A>How can I report a bug?</H3>
+
+<P>Fill out the form <A HREF="http://tangent.org/bugs/?op=create&report=mod_layout">here</A>. </P>
+
+<BR><H3><A NAME="_1_6"></A>Is there a mailing list?</H3>
+
+<P>Yes!. Two mailing lists have been created. One is announce-mod_layout@tangent.org which is only used for sending out announcements about new versions of the software. The other is mod_layout@tangent.org which is for general discussion of the sotware and its uses. Send mail to  <A HREF="mailto:minordomo@tangent.org.">minordomo@tangent.org</A> with a subject of "subscribe announce-mod_layout" or "subscribe mod_layout" to subscribe to either of the mailing list. </P>
+
+<BR><H3><A NAME="_1_7"></A>Is there anyplace I can see it at work?</H3>
+
+<P>A very distant ancestor can be seen at <A HREF="http://www.vh.org/.">The Virtual Hospital</A>. I know of a few other large sites, but I do not have their permission to list them here. Send me a URL if you have a site using it  and I will probably add it to the page. </P>
+
+<BR><H3><A NAME="_1_8"></A>How do I install it?</H3>
+
+<P>From the INSTALL file:</P>
+
+<BR>
+<P>Do you use DSO? If so just type make and</P>
+
+<P>as long as apxs is in your path all things</P>
+
+<P>should go smoothly.</P>
+
+<P>If you are not using DSO you should be :)</P>
+
+<BR>
+<P>If for some reason you need to compile</P>
+
+<P>apache try the following:</P>
+
+<P>1. Change the current directory to the directory containing your
+apache</P>
+
+<P>	 source distribution.</P>
+
+<BR>
+<P>2. Call the configure script as you normally would and add the
+switch:</P>
+
+<P>--add-module=&lt;path-to-mod_layout-directory&gt;/mod_layout.c</P>
+
+<BR>
+<P>3. Make sure the build environment is clean by issuing the
+following</P>
+
+<P>   command:</P>
+
+<P>&gt; make clean</P>
+
+<BR>
+<P>4. Build the new httpd binary with:</P>
+
+<P>&gt; make</P>
+
+<BR>
+<P>5. Install the new httpd binary with:</P>
+
+<P>&gt; make install</P>
+
+<BR><H3><A NAME="_1_9"></A>What are the directives?</H3>
+
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutHeader.html">LayoutHeader</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutFooter.html">LayoutFooter</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutHandler.html">LayoutHandler</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutProxy.html">LayoutProxy</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutComment.html">LayoutComment</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutDefaultHandlers.html">LayoutDefaultHandlers</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutHandlerGlob.html">LayoutHandlerGlob</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutDisplayOriginal.html">LayoutDisplayOriginal</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutIgnoreURI.html">LayoutIgnoreURI</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutIgnoreHeaderURI.html">LayoutIgnoreHeaderURI</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutIgnoreFooterURI.html">LayoutIgnoreFooterURI</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutHTTPHeaderOff.html">LayoutHTTPHeaderOff</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutFooterOff.html">LayoutOff</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutHeaderOff.html">HeaderOff</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutHTTPOverride.html">LayoutHTTPOverride</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutHTTPHeader.html">LayoutHTTPHeader</A></LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutHeaderTXT.html">LayoutHeaderTXT</A> (deprecated in version 2.5)</LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutFooterTXT.html">LayoutFooterTXT</A> (deprecated in version 2.5)</LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutHeaderFile.html">LayoutHeaderFile</A> (deprecated in version 2.5)</LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutFooterFile.html">LayoutFooterFile</A> (deprecated in version 2.5)</LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutTimeFormat.html">LayoutTimeFormat</A> </LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutPostAsync.html">LayoutPostAsync</A> </LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutMergeErrorIgnore.html">LayoutMergeErrorIgnore</A> </LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutMerge.html">LayoutMerge</A> </LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutMergeBeginTag.html">LayoutMergeBeginTag</A> </LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutMergeEndTag.html">LayoutMergeEndTag</A> </LI>
+<LI><A HREF="http://www.tangent.org/mod_layout/directives/LayoutCache.html">LayoutCache</A> </LI>
+
+<BR><H3><A NAME="_1_10"></A>I have my own type that I have defined with AddHanlder, how can I
+wrap that?</H3>
+
+<P>Use LayoutHandler. AKA</P>
+
+<P>LayoutHanlder foobar/type</P>
+
+<BR><H3><A NAME="_1_11"></A>What happened to the CGIEnable directive?</H3>
+
+<P>It was removed after version 0.5. Why? I went a different
+direction in the code. I decided to give people the option of
+using LayoutHandler to add new types instead of predefining them.</P>
+
+<BR><H3><A NAME="_1_12"></A>Hey, I don't want to wrap CGI's, just HTML, how do I do that?</H3>
+
+<P>Use the following directives:</P>
+
+<P>LayoutDefaultHandlers Off</P>
+
+<P>LayoutHandler text/html.</P>
+
+<BR><H3><A NAME="_1_13"></A>So what is the difference between Layout, LayoutFile, and LayoutTXT (or Header, HeaderFile, and HeaderTXT)?</H3>
+
+<B> These methods were depreciated in version 2.5 </B><br>
+<P>Performance. If you have some some non-dynamic content then you
+would be better off using the *TXT directives (If the content is more
+then a single line you should consider putting it in a seperate file
+and using LayoutFile and HeaderFile). This way the
+content will be loaded directly into Apache (unlike the Layout and Header
+methods, which make call to Apache to process).</P>
+
+<BR><H3><A NAME="_1_14"></A>What handlers does LayoutDefaultHandlers do?</H3>
+
+<LI>server-parsed</LI>
+
+<LI>text/html</LI>
+
+<LI>text/plain</LI>
+
+<LI>perl-script</LI>
+
+<LI>cgi-script</LI>
+
+<LI>application/x-http-cgi</LI>
+
+<BR>
+<P>I will probably add more in the future. Email me if you have one
+that you would like to see added in by default.</P>
+
+<BR><H3><A NAME="_1_15"></A>What environmental variables does ModLayout add?</H3>
+
+<P> Three environmental variables are currently added to environmental namespace for Layout and Header files. They are:
+<LI> LAYOUT_SCRIPT_NAME
+<LI> LAYOUT_PATH_INFO
+<LI> LAYOUT_QUERY_STRING
+<LI> LAYOUT_LAST_MODIFIED
+They represent the parsed information that made up the original request. You can set the look of LAYOUT_LAST_MODIFIED by using the LayoutTimeFormat directive).
+<BR>
+<BR><H3><A NAME="_1_16"></A>How do I pick different headers and footers for different pages dynamically?</H3>
+
+<P> Write a cgi/servlet/PHP script and use the LAYOUT_SCRIPT_NAME environmental variable to determine what content you wish to display.
+
+<BR>
+<BR><H3><A NAME="_1_17"></A>Hey, what about frames?</H3>
+
+<P>I personally hate them.</P>
+<P>You want to know more? <sighs> Ok, what has been discovered thus
+far is that using any of the Header tags will break framesets. Layouts
+seem to work fine though. If any anyone has had any better luck
+mail <A HREF="mailto:brian@tangent.org">me</A>.</P>
+
+<BR>
+<BR><H3><A NAME="_1_18"></A>Hey, what about using this with a proxy server?</H3>
+
+<P>As of version 0.9 I began to test support for 
+the proxy module. Currently I have only tested ProxyPass
+and it seems to work (any feedback would be appreciated). In cases
+where a flash file is used as an Index (or any filetype which
+is not wrappable) the page that is return will be broken. Also,
+anything that ProxyPass can not support, mod_layout will
+not support.</P>
+<BR>
+
+<BR>		<A HREF="#_1_19"></A>Can I have just the footer and header print?</BR>
+<P>Yes. The most common reason to do this is if you are handling frames (and if you are doing frames don't forget to make the header dynamic and smart enough not to wrap itself). This can be done by turning off the wrapped page using "LayoutDisplayOriginal Off".</P>
+
+<BR>		<A HREF="#_1_20"></A>Is it possible to specify text/* in for a LayoutHandler?</BR>
+<P> Yes, as of version 1.2 you can turn this feature on using "LayoutHandlerGlob On". Keep in mind though that depending on the number of types you are wrapping this can slow things down. More effort is needed to determine how much of a performance hit this really is. BTW If you specify something like "*/*", yes you
+will wrap everything, but this includes images (which will show up corrupted). </P>
+
+
+<BR><H3><A NAME="_1_21"></A>What about directories?</H3>
+<P>Ok, so you tried adding: <br>
+LayoutHandler text/directory<br>
+and it didn't work right?<br>
+At least for Solaris and Linux (that is the only place I have
+tested this on), the following should work:<br>
+LayoutHandler httpd/unix-directory
+
+
+<BR><H3><A NAME="_1_22"></A>Can I have it ignore certain files?</H3>
+<P> Yes!. You can speficy URI that are to be ignored by using the
+LayoutIgnoreURI directive. It handles regular expressions. </P>
+
+<BR><H3><A NAME="_1_23"></A>But can I have only certain files not display headers (or footer)</H3>
+<P> Yes!. You can speficy URI that are to be ignored for headers by using the
+LayoutIgnoreHeaderURI directive. A similair directive, LayoutIgnoreFooterURI
+exists for footers. Both handle regular expressions. </P>
+
+<BR><H3><A NAME="_1_24"></A>How do I modify outbound HTTP headers?</H3>
+<P>
+If you turn on LayoutHTTPOverride then your Header (if you have
+one) will be required to produce the correct HTTP Headers. If
+you lack a Header it will default to the middle document
+that was called. In addition you can create a CGI/servlet/PHP
+script and call it with LayoutHTTPHeader. It is independent
+of the Header and you can use it it to put HTTP Headers
+into your outbound connections.
+</P>
+<BR><H3><A NAME="_1_25"></A>How do I make this work with PHP?</H3>
+<P>
+The following is an example which will wrap PHP along
+with html documents (this would catch everything from
+both version 3 and 4). <br>
+<LI>LayoutHandler application/x-httpd-php
+<LI>LayoutHandler application/x-httpd-php3
+<LI>LayoutHandler application/x-httpd-php3-source
+
+</P>
+<BR><H3><A NAME="_1_26"></A>So what is up with custom error documents?</H3>
+
+<P> Anything below version 2.5 gives you unpredictable results. As of
+2.5 they work fairly well as long as you specify a URI for them,
+or plain text (even though plain text does show off an annoying Apache
+bug). If you want to make sure that the URI is always wrapped you will
+want to make sure that the handler type for the ErrorDocument is
+handled by mod_layout (otherwise you are going to end up with some
+errors wrapped, and others not). <br>
+Using redirects for the ErrorDocuments will not work unless you are
+using version 2.8 with merge enabled. 
+<P>
+<BR><H3><A NAME="_1_27"></A>I am getting 405's with SSI documents?</H3>
+
+<P> The answer is that you have LayoutPostAsync enabled. Right now
+there is no fix for this. The SSI module rejects attempts
+on SSI's when it thinks the request was a POST.
+<P>
+<BR><H3><A NAME="_1_28"></A>What is the future?</H3>
+
+<P>This is really just the first component of what will be an entire
+web publishing system. I have a few others that I have written
+over the years that I am currently trying to clean up enough to
+give away. We shall see how ambitious I get :) </P><B>
+
+<BR>
+</BODY>
+</HTML>

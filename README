@@ -1,0 +1,197 @@
+Welcome to mod_layout!
+
+What this provides you with is a way to add
+footers and headers to all (or a subset) of
+the content that your site profides. You
+can enable documents by their handler types
+and then choose to ignore certain documents
+entirely, or have certain documents only
+have headers or footers.
+Read the faq.html for more information.
+
+How tested is this version? 
+Somewhat, but as with all things your mileage 
+may very.  I consider this to be a development 
+version at this point (I'm using it, and from what
+I keep track of we are approaching or have passed
+the 10K worth of sites mark, this being open source
+I have really no clue).  You should definetly
+test new versions for your envionment before
+deploying. I try to do my best when testing new
+versions but I have missed things in the past and I
+am sure I will miss things in the future.
+
+BTW development releases (past 2.5) will
+all be odd numbers. Development releases come
+with a standard warning that while I am probably
+using them on production servers, you should consider
+them to be a work in progress. Unless you have
+tested them for your situation, I would
+not put them on production servers.
+
+What is new since the last version?
+
+Version 2.8 added the following:
+* Fixes to fully support redirects 
+  for error documents during merges
+* file descriptors were getting left
+  open during merge (same for some tmp
+	files).
+
+Version 2.7.5 added the following:
+* merge tags other then body are now working
+* HTTP headers have completly changed. You
+  now need to specify specific URI or handlers
+	to ignore. There is no longer a way to globally
+	disable them (this was just bad). Take a look
+	at LayoutHTTPOverrideHandler and LayoutHTTPOverrideURI.
+* More fixes in error documents (the messages
+	are actually right!)
+* More fixes for mod_proxy
+* More conservative use of the cache-control
+  flag.
+* LayoutTimeFormat works a lot better
+* Many other changes that I have forgotten about.
+
+Version 2.7.3 added the following:
+* Seems that chunking was broke for .2. 
+	That is fixed now. Issues still
+	are outstanding for people using
+	header override.
+* Fixes for supporting mod_proxy. First
+  time this has worked in many versions.
+	I have someone who is interested in 
+	helping me debug it, so hopefully we
+	will have this fully supported soon.
+
+Version 2.7.2 added the following:
+* Fixes are in place for merge. Parsing wasn't
+  quite happening correctly. There was also
+  an error with a file descriptor.
+
+Version 2.7 added the following:
+* Merges are finally supported. What does this
+	mean? If you enable LayoutMerge your header
+	will be inserted after your body tag and
+	the footer will be inserted before the 
+	end body tag. This can be adjusted with
+	LayoutMergeBeginTag and LayoutMergeEndTag.
+	The default is:
+	LayoutMergeBeginTag "<body*>"
+	LayoutMergeEndTag "</body>"
+	They are case insensitive and use the same
+	regular expressions that fnmatch() uses.
+* You can now append multiple headers and
+	footers. And example is:
+	LayoutHeader "This is the first tag."
+	LayoutHeader "This is the second tag."
+	The above would print out both tags (with
+	no space between them, these are literal
+	strings). You can use LayoutHeaderAppend
+	and LayoutFooterAppend to change the behavior
+	of directories contained in virtualhosts.
+
+Version 2.5 added the following:
+* Error Document solved
+* LayoutHeaderTXT, LayoutHeaderFile, LayoutFooterFile,
+	and LayoutFooterTXT are all depreciated now. 
+	LayoutFooter and LayoutHeader now know how to do
+	the right thing.  LayoutFooter and LayoutHeader now control 
+	all footer and headers. If you need to use text, just 
+	quote the text as you would have with LayoutHeaderTXT. 
+	You must have at least one space in the quote for this to
+	work. Files can be cach'ed by entering in their
+	full path. The contents of the file will then
+	be displayed in the footer.
+
+Version 2.4.1 added the following:
+* Solved some problems with error documents
+
+Version 2.4 added the following:
+* Potential memory leaks have been cleaned up.
+* Asynchronous IO for POST has now been added.
+  This means that if you use the directive:
+	LayoutPostAsync On
+	all httpheaders, headers and footers
+	can look at the contents of the data sent
+	via the post. This should be turned on
+	only if you really need it as it does
+	cause a bit more file IO (which we have
+	found out works quite well, and is quite
+	fast under any OS that has a tmp filesystem
+	(such as Solaris and the different *BSD's).
+	Linux is a little slower, but not 
+	incredibly so.
+* LayoutIgnoreHTTPHeaderURI has been added so
+	you can have more control over what pages 
+	have the HTTPHeader run against it. This pretty
+	much evens up what can be done with the different
+	stages of mod_layout.
+* Started to clean up the directives default help
+  that mod_info generates. I should probably be
+	a bit appalled at myself for how inacurate/just
+	plain wrong some of them were. Anyone who would
+	like to come up with better descriptions is welcome
+	to submit them.
+* "make reload" is now usefull.
+
+
+Version 2.3 added the following:
+* Fixed problems with error documents. They
+  are now wrapped along with the rest of
+  the site. 
+* Added ModLayout HTTP header for debugging.
+
+Version 2.1 added the following:
+* Fixed the directory bug
+
+Version 2.0 added the following:
+* The often requested LayoutComment
+  which if turned on lets mod_layout
+  leave a comment field about where
+  it has ended and began its processing 
+* LayoutIgnoreFooterURI and LayoutIgnoreHeaderURI
+  directives have been added. These work just like
+  the directive LayoutIgnoreURI except they
+  will cause documents to just ignore either the
+  header or the footer.
+* All features other then Proxy can be counted
+  on as being stable (I will be getting back
+  to that fairly soon).
+
+
+	  
+
+So how do I make this work?
+An example config for your httpd.conf
+file would be the following:
+<Virtualhost www.geek.com>
+	LayoutFooter /footer.html
+	LayoutHeader /header.html
+</virtualhost>
+
+The LayoutFooter directive can also be a cgi
+(aka putting in "LayoutFooter /cgi-bin/printenv" would
+happily append the environmental variables to
+the end of all of the output for your site.
+
+If you want to cut down on processing the
+following will also work:
+<Virtualhost www.geek.com>
+	LayoutFooterTXT "<P> This is the tail end of things<P>"
+	LayoutHeaderTXT "<P> This is the beginning of things<P>"
+</virtualhost>
+
+The following is an example which will wrap PHP along
+with html documents.
+<Virtualhost www.geek.com>
+	LayoutFooter /footer.html
+	LayoutHeaderTXT "<P> This is the beginning of things<P>"
+	LayoutHandler application/x-httpd-php
+	LayoutHandler application/x-httpd-php3
+	LayoutHandler application/x-httpd-php3-source
+</virtualhost>
+
+
+	-Brian <brian@tangent.org>
+	 Seattle, Washington

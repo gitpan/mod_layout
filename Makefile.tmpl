@@ -1,0 +1,75 @@
+
+LIB=liblayout.$(LIBEXT)
+
+OBJS=\
+     mod_layout.o \
+     utility.o 
+OBJS_PIC=\
+     mod_layout.lo \
+     utility.lo 
+
+all: lib
+
+lib: $(LIB)
+
+liblayout.a: $(OBJS)
+	rm -f $@
+	ar cr $@ $(OBJS)
+	$(RANLIB) $@
+
+liblayout.so: $(OBJS_PIC)
+	rm -f $@
+	$(LD_SHLIB) $(LDFLAGS_SHLIB) -o $@ $(OBJS_PIC) $(LIBS_SHLIB)
+
+liblayout.dll: $(OBJS_PIC) mod_layout.def
+	$(LD_SHLIB) $(LDFLAGS_SHLIB) -o $* $(OBJS_PIC) $(LIBS_SHLIB)
+	emxbind -b -q -s -h0 -dmod_layout.def $* && \
+	rm $*
+
+.SUFFIXES: .o .lo .dll
+
+.c.o:
+	$(CC) -c $(INCLUDES) $(CFLAGS) $<
+
+.c.lo:
+	$(CC) -c $(INCLUDES) $(CFLAGS) $(CFLAGS_SHLIB) $< && mv $*.o $*.lo
+
+clean:
+	rm -f $(OBJS) $(OBJS_PIC) $(LIB)
+
+distclean: clean
+	-rm -f Makefile
+
+# We really don't expect end users to use this rule.  It works only with
+# gcc, and rebuilds Makefile.tmpl.  You have to re-run Configure after
+# using it.
+depend:
+	cp Makefile.tmpl Makefile.tmpl.bak \
+	    && sed -ne '1,/^# DO NOT REMOVE/p' Makefile.tmpl > Makefile.new \
+	    && gcc -MM $(INCLUDES) $(CFLAGS) *.c >> Makefile.new \
+	    && sed -e '1,$$s: $(INCDIR)/: $$(INCDIR)/:g' \
+	           -e '1,$$s: $(OSDIR)/: $$(OSDIR)/:g' Makefile.new \
+		> Makefile.tmpl \
+	    && rm Makefile.new
+
+#Dependencies
+
+$(OBJS) $(OBJS_PIC): Makefile
+
+# DO NOT REMOVE
+mod_layout.o: mod_layout.c mod_layout.h mod_layout_directives.h $(INCDIR)/httpd.h \
+ $(INCDIR)/http_config.h \
+ $(INCDIR)/http_protocol.h \
+ $(INCDIR)/ap_config.h \
+ $(INCDIR)/http_log.h \
+ $(INCDIR)/alloc.h \
+ $(INCDIR)/fnmatch.h \
+ $(INCDIR)/http_core.h
+utilty.o: utility.c mod_layout.h $(INCDIR)/httpd.h \
+ $(INCDIR)/http_config.h \
+ $(INCDIR)/http_protocol.h \
+ $(INCDIR)/ap_config.h \
+ $(INCDIR)/http_log.h \
+ $(INCDIR)/alloc.h \
+ $(INCDIR)/fnmatch.h \
+ $(INCDIR)/http_core.h

@@ -1,0 +1,5 @@
+* Write a system to allow someone to manage multiple Footer and Headers more easily
+* Full support of the proxy module 
+* Determine if any more support for envionmental variables is needed
+* Support mod_backhand (working in BETA, but needs more testing)
+* Look at Etags.	

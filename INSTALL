@@ -1,0 +1,39 @@
+mod_layout install
+--------------------------------------
+Do you use DSO? If so just type make and
+as long as apxs is in your path all things
+should go smoothly.
+If you are not using DSO you should be :)
+
+If for some reason you need to compile
+apache try the following:
+1. Copy the contents of mod_layout into a directory under
+   your treee so that you have:
+   src/modules/layout/ 
+
+2. Now copy the file Makefile.STATIC to Makefile in the 
+   layout directory.
+
+3. Call the configure script as you normally would and add the switch:
+   --enable-module=src/modules/layout/liblayout.a
+
+
+4. Make sure the build environment is clean by issuing the following
+   command:
+> make clean
+
+5. Build the new httpd binary with:
+> make
+
+6. Install the new httpd binary with:
+> make install
+
+7. Restart apache. Make sure you do a:
+> apachectl stop 
+> apachectl start 
+
+
+See the README file for more on how to configure
+mod_layout.
+
+	-Brian <brian@tangent.org>
